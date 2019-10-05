@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/vbatis-test?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+logging:
+  level:
+    com:
+      vbatis:
+        test:
+          mapper: debug

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vbatis.test.mapper.UserMapper">
+  <insert id="insertUser" useGeneratedKeys="true" keyProperty="userId">
+    insert into user (
+      <trim suffixOverrides=",">
+        <if test="username != null">username, </if>
+        <if test="email != null">email, </if>
+        <if test="password != null">password, </if>
+        <if test="role != null and role.roleId != null">role_id, </if>
+      </trim>
+    ) values (
+      <trim suffixOverrides=",">
+        <if test="username != null">#{username}, </if>
+        <if test="email != null">#{email}, </if>
+        <if test="password != null">#{password}, </if>
+        <if test="role != null and role.roleId != null">#{role.roleId}, </if>
+      </trim>
+    );
+  </insert>
+  <select id="findUserById" resultMap="com.vbatis.test.mapper.VCommonMapper.UserResult">
+    select
+      user_id,
+      username,
+      email
+    from user as u
+    <where>
+      and user_id = #{id}
+    </where>
+    limit 1
+  </select>
+  <select id="findUserWithRoleById" resultMap="com.vbatis.test.mapper.VCommonMapper.UserResult">
+    select
+      user_id,
+      username,
+      email,
+      r.role_id as r_role_id,
+      r.role_name as r_role_name
+    from user as u
+    inner join role as r on r.role_id = u.role_id
+    <where>
+      and u.user_id = #{id}
+    </where>
+  </select>
+  <select id="findUserWithPostsById" resultMap="com.vbatis.test.mapper.VCommonMapper.UserResult">
+    select
+      user_id,
+      username,
+      email,
+      p.post_id as p_post_id,
+      p.title as p_title
+    from user as u
+    left join post as p on p.author_id = u.user_id
+    <where>
+      and u.user_id = #{id}
+    </where>
+    order by p.post_id desc</select>
+  <select id="findUserWithPostsAndTagById" resultMap="com.vbatis.test.mapper.VCommonMapper.UserResult">
+    select
+      user_id,
+      username,
+      email,
+      p.post_id as p_post_id,
+      p.title as p_title,
+      p_t.id as p_t_id,
+      p_t.name as p_t_name
+    from user as u
+    left join post as p on p.author_id = u.user_id
+    inner join post_tag as p_t on p_t.id = p.tag_id
+    <where>
+      and u.user_id = #{id}
+    </where>
+  </select>
+</mapper>

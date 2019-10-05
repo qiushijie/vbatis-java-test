@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vbatis.test.mapper.PostMapper">
+  <insert id="insertPost" useGeneratedKeys="true" keyProperty="postId">
+    insert into post (
+      <trim suffixOverrides=",">
+        <if test="title != null">title, </if>
+        <if test="content != null">content, </if>
+        <if test="author != null and author.userId != null">author_id, </if>
+        <if test="tag != null and tag.id != null">tag_id, </if>
+      </trim>
+    ) values (
+      <trim suffixOverrides=",">
+        <if test="title != null">#{title}, </if>
+        <if test="content != null">#{content}, </if>
+        <if test="author != null and author.userId != null">#{author.userId}, </if>
+        <if test="tag != null and tag.id != null">#{tag.id}, </if>
+      </trim>
+    );
+  </insert>
+  <select id="findAllPostByUserIdWithPage" resultMap="com.vbatis.test.mapper.VCommonMapper.PostResult">
+    select
+      post_id,
+      title,
+      content
+    from post as p
+    <where>
+      and p.author_id = #{userId}
+    </where>
+    limit #{offset}, #{limit}
+  </select>
+  <select id="countPostByUserId" resultType="Long">
+    select
+      count(*)
+    from post as p
+    <where>
+      and p.author_id = #{userId}
+    </where>
+  </select>
+  <select id="countPostByUserName" resultType="Long">
+    select
+      count(*)
+    from post as p
+    inner join user as u on u.user_id = p.author_id
+    <where>
+      and u.username = #{username}
+    </where>
+  </select>
+</mapper>

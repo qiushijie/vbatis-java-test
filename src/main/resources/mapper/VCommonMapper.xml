@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vbatis.test.mapper.VCommonMapper">
+  <resultMap id="UserResult" type="com.vbatis.test.entity.User">
+    <id property="userId" column="user_id" />
+    <result property="username" column="username"  />
+    <result property="email" column="email"  />
+    <result property="password" column="password"  />
+    <association property="role" resultMap="RoleResult" columnPrefix="r_" />
+    <collection property="posts" resultMap="PostResult" columnPrefix="p_" />
+  </resultMap>
+  <resultMap id="RoleResult" type="com.vbatis.test.entity.Role">
+    <id property="roleId" column="role_id" />
+    <result property="name" column="role_name"  />
+  </resultMap>
+  <resultMap id="PostTagResult" type="com.vbatis.test.entity.PostTag">
+    <id property="id" column="id" />
+    <result property="name" column="name"  />
+  </resultMap>
+  <resultMap id="PostResult" type="com.vbatis.test.entity.Post">
+    <id property="postId" column="post_id" />
+    <result property="title" column="title"  />
+    <result property="content" column="content"  />
+    <result property="authorId" column="author_id"  />
+    <result property="tagId" column="tag_id"  />
+    <association property="author" resultMap="UserResult" columnPrefix="u_" />
+    <association property="tag" resultMap="PostTagResult" columnPrefix="t_" />
+  </resultMap>
+</mapper>

@@ -1,0 +1,197 @@
+[
+  {
+    "name": "User",
+    "comment": "用户mapper",
+    "methods": [
+      {
+        "comment": "添加用户和角色",
+        "entity": "User",
+        "includes": [
+          "username",
+          "email",
+          "password",
+          "role"
+        ],
+        "name": "insertUser",
+        "type": "insert"
+      },
+      {
+        "array": false,
+        "comment": "查询单个用户",
+        "entity": "User",
+        "exps": [
+          {
+            "exp": "user_id = #{id:Long}"
+          }
+        ],
+        "includes": [
+          "userId",
+          "username",
+          "email"
+        ],
+        "limit1": true,
+        "name": "findUserById",
+        "type": "select"
+      },
+      {
+        "comment": "查询单个用户和角色",
+        "entity": "User",
+        "exps": [
+          {
+            "exp": "u.user_id = #{id:Long}"
+          }
+        ],
+        "includes": [
+          "userId",
+          "username",
+          "email",
+          "role.roleId",
+          "role.name"
+        ],
+        "name": "findUserWithRoleById",
+        "type": "select"
+      },
+      {
+        "array": true,
+        "comment": "查询单个用户和帖子",
+        "entity": "User",
+        "exps": [
+          {
+            "exp": "u.user_id = #{id:Long}"
+          }
+        ],
+        "includes": [
+          "userId",
+          "username",
+          "email",
+          "posts.postId",
+          "posts.title"
+        ],
+        "name": "findUserWithPostsById",
+        "orders": [
+          {
+            "columns": "p.post_id",
+            "sort": "desc"
+          }
+        ],
+        "page": false,
+        "type": "select"
+      },
+      {
+        "comment": "查询单个用户和帖子以及标签",
+        "entity": "User",
+        "exps": [
+          {
+            "exp": "u.user_id = #{id:Long}"
+          }
+        ],
+        "includes": [
+          "userId",
+          "username",
+          "email",
+          "posts.postId",
+          "posts.title",
+          "posts.tag.id",
+          "posts.tag.name"
+        ],
+        "name": "findUserWithPostsAndTagById",
+        "type": "select"
+      }
+    ]
+  },
+  {
+    "name": "Role",
+    "comment": "角色mapper",
+    "methods": [
+      {
+        "comment": "添加角色",
+        "entity": "Role",
+        "includes": [
+          "name"
+        ],
+        "name": "insertRole",
+        "type": "insert"
+      }
+    ]
+  },
+  {
+    "name": "Post",
+    "comment": "帖子mapper",
+    "methods": [
+      {
+        "comment": "添加帖子",
+        "entity": "Post",
+        "includes": [
+          "title",
+          "content",
+          "author",
+          "tag"
+        ],
+        "name": "insertPost",
+        "type": "insert"
+      },
+      {
+        "array": true,
+        "comment": "使用用户id查询帖子",
+        "entity": "Post",
+        "exps": [
+          {
+            "exp": "p.author_id = #{userId: Long}"
+          }
+        ],
+        "includes": [
+          "postId",
+          "title",
+          "content"
+        ],
+        "name": "findAllPostByUserIdWithPage",
+        "page": true,
+        "type": "select"
+      },
+      {
+        "comment": "查询用户帖子数量",
+        "entity": "Post",
+        "exps": [
+          {
+            "exp": "p.author_id = #{userId:Long}"
+          }
+        ],
+        "includes": [
+          "postId"
+        ],
+        "name": "countPostByUserId",
+        "type": "count"
+      },
+      {
+        "comment": "使用用户名查询用户帖子数量",
+        "entity": "Post",
+        "exps": [
+          {
+            "exp": "u.username = #{username:String}"
+          }
+        ],
+        "includes": [
+          "postId",
+          "author.userId"
+        ],
+        "name": "countPostByUserName",
+        "type": "count"
+      }
+    ]
+  },
+  {
+    "name": "PostTag",
+    "comment": "帖子标签mapper",
+    "methods": [
+      {
+        "comment": "添加标签",
+        "entity": "PostTag",
+        "includes": [
+          "name"
+        ],
+        "name": "insertTag",
+        "type": "insert"
+      }
+    ]
+  }
+]

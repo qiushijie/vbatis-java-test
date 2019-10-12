@@ -1,0 +1,147 @@
+[
+  {
+    "name": "User",
+    "table": "user",
+    "comment": "用户",
+    "alias": "u",
+    "results": [
+      {
+        "column": "user_id",
+        "comment": "用户id",
+        "generatedKey": true,
+        "id": true,
+        "property": "userId"
+      },
+      {
+        "column": "username",
+        "comment": "用户名",
+        "property": "username"
+      },
+      {
+        "column": "email",
+        "comment": "邮箱",
+        "property": "email"
+      },
+      {
+        "column": "password",
+        "comment": "密码",
+        "property": "password"
+      }
+    ],
+    "associations": [
+      {
+        "alias": "r",
+        "comment": "角色",
+        "entity": "Role",
+        "join": "inner join role as $this on $this.role_id = $ref.role_id",
+        "property": "role",
+        "valueColumn": "role_id",
+        "valueProperty": "role.roleId"
+      }
+    ],
+    "collections": [
+      {
+        "alias": "p",
+        "comment": "帖子列表",
+        "entity": "Post",
+        "join": "left join post as $this on $this.author_id = $ref.user_id",
+        "property": "posts"
+      }
+    ]
+  },
+  {
+    "name": "Role",
+    "table": "role",
+    "comment": "角色",
+    "alias": "r",
+    "results": [
+      {
+        "column": "role_id",
+        "comment": "角色id",
+        "generatedKey": true,
+        "id": true,
+        "property": "roleId"
+      },
+      {
+        "column": "role_name",
+        "comment": "角色名",
+        "property": "name"
+      }
+    ],
+    "associations": [],
+    "collections": []
+  },
+  {
+    "name": "PostTag",
+    "table": "post_tag",
+    "comment": "帖子标签",
+    "alias": "pt",
+    "results": [
+      {
+        "column": "id",
+        "comment": "标签id",
+        "generatedKey": true,
+        "id": true,
+        "property": "id"
+      },
+      {
+        "column": "name",
+        "comment": "标签名",
+        "property": "name"
+      }
+    ],
+    "associations": [],
+    "collections": []
+  },
+  {
+    "name": "Post",
+    "table": "post",
+    "comment": "帖子",
+    "alias": "p",
+    "results": [
+      {
+        "column": "post_id",
+        "property": "postId",
+        "id": true,
+        "generatedKey": true
+      },
+      {
+        "column": "title",
+        "property": "title"
+      },
+      {
+        "column": "content",
+        "property": "content"
+      },
+      {
+        "column": "author_id",
+        "property": "authorId"
+      },
+      {
+        "column": "tag_id",
+        "property": "tagId"
+      }
+    ],
+    "associations": [
+      {
+        "alias": "u",
+        "comment": "作者",
+        "entity": "User",
+        "join": "inner join user as $this on $this.user_id = $ref.author_id",
+        "property": "author",
+        "valueColumn": "author_id",
+        "valueProperty": "author.userId"
+      },
+      {
+        "alias": "t",
+        "comment": "标签",
+        "entity": "PostTag",
+        "join": "inner join post_tag as $this on $this.id = $ref.tag_id",
+        "property": "tag",
+        "valueColumn": "tag_id",
+        "valueProperty": "tag.id"
+      }
+    ],
+    "collections": []
+  }
+]

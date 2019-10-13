@@ -1,17 +1,29 @@
 package com.vbatis.test.entity;
 
+import java.util.List;
 import lombok.Data;
 
+/*
+* 帖子
+*/
 @Data public class Post {
 
-    private Long postId;
+	private Long postId;
 
-    private String title;
+	private String title;
 
-    private String content;
+	private String content;
 
-    private User author;
+	private Long authorId;
 
-    private PostTag tag;
+	/*
+	* 作者
+	*/
+	private User author;
+
+	/*
+	* 标签列表
+	*/
+	private List<Tag> tags;
 
 }

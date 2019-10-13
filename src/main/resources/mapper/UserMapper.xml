@@ -20,9 +20,9 @@
   </insert>
   <select id="findUserById" resultMap="com.vbatis.test.mapper.VCommonMapper.UserResult">
     select
-      user_id,
-      username,
-      email
+      u.user_id as user_id,
+      u.username as username,
+      u.email as email
     from user as u
     <where>
       and user_id = #{id}
@@ -31,9 +31,9 @@
   </select>
   <select id="findUserWithRoleById" resultMap="com.vbatis.test.mapper.VCommonMapper.UserResult">
     select
-      user_id,
-      username,
-      email,
+      u.user_id as user_id,
+      u.username as username,
+      u.email as email,
       r.role_id as r_role_id,
       r.role_name as r_role_name
     from user as u
@@ -41,12 +41,13 @@
     <where>
       and u.user_id = #{id}
     </where>
+    limit 1
   </select>
   <select id="findUserWithPostsById" resultMap="com.vbatis.test.mapper.VCommonMapper.UserResult">
     select
-      user_id,
-      username,
-      email,
+      u.user_id as user_id,
+      u.username as username,
+      u.email as email,
       p.post_id as p_post_id,
       p.title as p_title
     from user as u
@@ -54,19 +55,26 @@
     <where>
       and u.user_id = #{id}
     </where>
-    order by p.post_id desc</select>
-  <select id="findUserWithPostsAndTagById" resultMap="com.vbatis.test.mapper.VCommonMapper.UserResult">
+    order by p.post_id desc
+  </select>
+  <select id="findUserAndPostsAndAuthor" resultMap="com.vbatis.test.mapper.VCommonMapper.UserResult">
     select
-      user_id,
-      username,
-      email,
+      u.user_id as user_id,
+      u.email as email,
+      u.password as password,
+      u.username as username,
       p.post_id as p_post_id,
       p.title as p_title,
-      p_t.id as p_t_id,
-      p_t.name as p_t_name
+      p.content as p_content,
+      p.author_id as p_author_id,
+      p.tag_id as p_tag_id,
+      p_u.user_id as p_u_user_id,
+      p_u.username as p_u_username,
+      p_u.email as p_u_email,
+      p_u.password as p_u_password
     from user as u
     left join post as p on p.author_id = u.user_id
-    inner join post_tag as p_t on p_t.id = p.tag_id
+    inner join user as p_u on p_u.user_id = p.author_id
     <where>
       and u.user_id = #{id}
     </where>

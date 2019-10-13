@@ -25,11 +25,11 @@ public interface UserMapper {
     /**
     * 查询单个用户和帖子
     **/
-    List<User> findUserWithPostsById(@Param("id") Long id);
+    User findUserWithPostsById(@Param("id") Long id);
 
     /**
-    * 查询单个用户和帖子以及标签
+    * 深查询测试
     **/
-    User findUserWithPostsAndTagById(@Param("id") Long id);
+    User findUserAndPostsAndAuthor(@Param("id") Long id);
 
 }

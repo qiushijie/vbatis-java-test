@@ -48,11 +48,12 @@
           "role.roleId",
           "role.name"
         ],
+        "limit1": true,
         "name": "findUserWithRoleById",
         "type": "select"
       },
       {
-        "array": true,
+        "array": false,
         "comment": "查询单个用户和帖子",
         "entity": "User",
         "exps": [
@@ -67,6 +68,7 @@
           "posts.postId",
           "posts.title"
         ],
+        "limit1": false,
         "name": "findUserWithPostsById",
         "orders": [
           {
@@ -78,7 +80,7 @@
         "type": "select"
       },
       {
-        "comment": "查询单个用户和帖子以及标签",
+        "comment": "深查询测试",
         "entity": "User",
         "exps": [
           {
@@ -89,12 +91,18 @@
           "userId",
           "username",
           "email",
+          "password",
           "posts.postId",
           "posts.title",
-          "posts.tag.id",
-          "posts.tag.name"
+          "posts.content",
+          "posts.authorId",
+          "posts.tagId",
+          "posts.author.userId",
+          "posts.author.username",
+          "posts.author.email",
+          "posts.author.password"
         ],
-        "name": "findUserWithPostsAndTagById",
+        "name": "findUserAndPostsAndAuthor",
         "type": "select"
       }
     ]
@@ -124,8 +132,7 @@
         "includes": [
           "title",
           "content",
-          "author",
-          "tag"
+          "author"
         ],
         "name": "insertPost",
         "type": "insert"
@@ -176,16 +183,45 @@
         ],
         "name": "countPostByUserName",
         "type": "count"
+      },
+      {
+        "comment": "添加帖子标签",
+        "entity": "PostTag",
+        "includes": [
+          "tagId",
+          "postId"
+        ],
+        "name": "insertPostTag",
+        "type": "insert"
+      },
+      {
+        "comment": "查询帖子和标签",
+        "entity": "Post",
+        "exps": [
+          {
+            "exp": "p.post_id = #{id:Long}"
+          }
+        ],
+        "includes": [
+          "postId",
+          "title",
+          "content",
+          "authorId",
+          "tagId",
+          "tags.id",
+          "tags.name"
+        ],
+        "name": "findPostAndTags",
+        "type": "select"
       }
     ]
   },
   {
-    "name": "PostTag",
-    "comment": "帖子标签mapper",
+    "name": "Tag",
     "methods": [
       {
-        "comment": "添加标签",
-        "entity": "PostTag",
+        "comment": "插入标签",
+        "entity": "Tag",
         "includes": [
           "name"
         ],

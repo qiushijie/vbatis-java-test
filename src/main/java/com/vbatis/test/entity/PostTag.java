@@ -1,11 +1,21 @@
 package com.vbatis.test.entity;
 
+import java.util.List;
 import lombok.Data;
 
+/*
+* 帖子评论
+*/
 @Data public class PostTag {
 
-    private Long id;
+	/*
+	* tag id
+	*/
+	private Long tagId;
 
-    private String name;
+	/*
+	* 帖子id
+	*/
+	private Long postId;
 
 }

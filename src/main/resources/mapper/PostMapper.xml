@@ -7,22 +7,20 @@
         <if test="title != null">title, </if>
         <if test="content != null">content, </if>
         <if test="author != null and author.userId != null">author_id, </if>
-        <if test="tag != null and tag.id != null">tag_id, </if>
       </trim>
     ) values (
       <trim suffixOverrides=",">
         <if test="title != null">#{title}, </if>
         <if test="content != null">#{content}, </if>
         <if test="author != null and author.userId != null">#{author.userId}, </if>
-        <if test="tag != null and tag.id != null">#{tag.id}, </if>
       </trim>
     );
   </insert>
   <select id="findAllPostByUserIdWithPage" resultMap="com.vbatis.test.mapper.VCommonMapper.PostResult">
     select
-      post_id,
-      title,
-      content
+      p.post_id as post_id,
+      p.title as title,
+      p.content as content
     from post as p
     <where>
       and p.author_id = #{userId}
@@ -44,6 +42,34 @@
     inner join user as u on u.user_id = p.author_id
     <where>
       and u.username = #{username}
+    </where>
+  </select>
+  <insert id="insertPostTag">
+    insert into post_tag (
+      <trim suffixOverrides=",">
+        <if test="tagId != null">tag_id, </if>
+        <if test="postId != null">post_id, </if>
+      </trim>
+    ) values (
+      <trim suffixOverrides=",">
+        <if test="tagId != null">#{tagId}, </if>
+        <if test="postId != null">#{postId}, </if>
+      </trim>
+    );
+  </insert>
+  <select id="findPostAndTags" resultMap="com.vbatis.test.mapper.VCommonMapper.PostResult">
+    select
+      p.post_id as post_id,
+      p.title as title,
+      p.content as content,
+      p.author_id as author_id,
+      p.tag_id as tag_id,
+      t.id as t_id,
+      t.name as t_name
+    from post as p
+    left join post_tag as pt on pt.post_id = p.post_id left join tag as t on t.id = pt.tag_id
+    <where>
+      and p.post_id = #{id}
     </where>
   </select>
 </mapper>

@@ -13,10 +13,6 @@
     <id property="roleId" column="role_id" />
     <result property="name" column="role_name"  />
   </resultMap>
-  <resultMap id="PostTagResult" type="com.vbatis.test.entity.PostTag">
-    <id property="id" column="id" />
-    <result property="name" column="name"  />
-  </resultMap>
   <resultMap id="PostResult" type="com.vbatis.test.entity.Post">
     <id property="postId" column="post_id" />
     <result property="title" column="title"  />
@@ -24,6 +20,14 @@
     <result property="authorId" column="author_id"  />
     <result property="tagId" column="tag_id"  />
     <association property="author" resultMap="UserResult" columnPrefix="u_" />
-    <association property="tag" resultMap="PostTagResult" columnPrefix="t_" />
+    <collection property="tags" resultMap="TagResult" columnPrefix="t_" />
+  </resultMap>
+  <resultMap id="PostTagResult" type="com.vbatis.test.entity.PostTag">
+    <result property="tagId" column="tag_id"  />
+    <result property="postId" column="post_id"  />
+  </resultMap>
+  <resultMap id="TagResult" type="com.vbatis.test.entity.Tag">
+    <id property="id" column="id" />
+    <result property="name" column="name"  />
   </resultMap>
 </mapper>

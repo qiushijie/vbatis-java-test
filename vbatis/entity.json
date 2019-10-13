@@ -72,28 +72,6 @@
     "collections": []
   },
   {
-    "name": "PostTag",
-    "table": "post_tag",
-    "comment": "帖子标签",
-    "alias": "pt",
-    "results": [
-      {
-        "column": "id",
-        "comment": "标签id",
-        "generatedKey": true,
-        "id": true,
-        "property": "id"
-      },
-      {
-        "column": "name",
-        "comment": "标签名",
-        "property": "name"
-      }
-    ],
-    "associations": [],
-    "collections": []
-  },
-  {
     "name": "Post",
     "table": "post",
     "comment": "帖子",
@@ -101,9 +79,9 @@
     "results": [
       {
         "column": "post_id",
-        "property": "postId",
+        "generatedKey": true,
         "id": true,
-        "generatedKey": true
+        "property": "postId"
       },
       {
         "column": "title",
@@ -116,10 +94,6 @@
       {
         "column": "author_id",
         "property": "authorId"
-      },
-      {
-        "column": "tag_id",
-        "property": "tagId"
       }
     ],
     "associations": [
@@ -131,17 +105,56 @@
         "property": "author",
         "valueColumn": "author_id",
         "valueProperty": "author.userId"
-      },
-      {
-        "alias": "t",
-        "comment": "标签",
-        "entity": "PostTag",
-        "join": "inner join post_tag as $this on $this.id = $ref.tag_id",
-        "property": "tag",
-        "valueColumn": "tag_id",
-        "valueProperty": "tag.id"
       }
     ],
+    "collections": [
+      {
+        "alias": "t",
+        "comment": "标签列表",
+        "entity": "Tag",
+        "join": "left join post_tag as pt on pt.post_id = $ref.post_id left join tag as $this on $this.id = pt.tag_id",
+        "property": "tags"
+      }
+    ]
+  },
+  {
+    "name": "PostTag",
+    "table": "post_tag",
+    "comment": "帖子评论",
+    "alias": "pt",
+    "results": [
+      {
+        "column": "tag_id",
+        "comment": "tag id",
+        "property": "tagId"
+      },
+      {
+        "column": "post_id",
+        "comment": "帖子id",
+        "property": "postId"
+      }
+    ],
+    "associations": [],
+    "collections": []
+  },
+  {
+    "name": "Tag",
+    "table": "tag",
+    "comment": "标签",
+    "alias": "t",
+    "results": [
+      {
+        "column": "id",
+        "generatedKey": true,
+        "id": true,
+        "property": "id"
+      },
+      {
+        "column": "name",
+        "property": "name"
+      }
+    ],
+    "associations": [],
     "collections": []
   }
 ]

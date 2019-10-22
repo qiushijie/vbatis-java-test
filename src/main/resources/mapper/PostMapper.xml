@@ -63,7 +63,6 @@
       p.title as title,
       p.content as content,
       p.author_id as author_id,
-      p.tag_id as tag_id,
       t.id as t_id,
       t.name as t_name
     from post as p

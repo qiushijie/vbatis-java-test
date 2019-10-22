@@ -7,10 +7,10 @@
         "comment": "添加用户和角色",
         "entity": "User",
         "includes": [
-          "username",
-          "email",
           "password",
-          "role"
+          "role",
+          "email",
+          "username"
         ],
         "name": "insertUser",
         "type": "insert"
@@ -207,7 +207,6 @@
           "title",
           "content",
           "authorId",
-          "tagId",
           "tags.id",
           "tags.name"
         ],

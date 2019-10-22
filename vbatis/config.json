@@ -12,7 +12,7 @@
   },
   "mapperJavaOut": "../src/main/java/com/vbatis/test/mapper",
   "mapperXmlOut": "../src/main/resources/mapper",
-  "name": "demo1",
+  "name": "demo",
   "property": {
     "toColumn": "UnderScoreCase",
     "toProperty": "CamelCase"

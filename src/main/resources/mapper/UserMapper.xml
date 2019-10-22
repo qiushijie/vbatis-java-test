@@ -4,17 +4,17 @@
   <insert id="insertUser" useGeneratedKeys="true" keyProperty="userId">
     insert into user (
       <trim suffixOverrides=",">
-        <if test="username != null">username, </if>
-        <if test="email != null">email, </if>
         <if test="password != null">password, </if>
         <if test="role != null and role.roleId != null">role_id, </if>
+        <if test="email != null">email, </if>
+        <if test="username != null">username, </if>
       </trim>
     ) values (
       <trim suffixOverrides=",">
-        <if test="username != null">#{username}, </if>
-        <if test="email != null">#{email}, </if>
         <if test="password != null">#{password}, </if>
         <if test="role != null and role.roleId != null">#{role.roleId}, </if>
+        <if test="email != null">#{email}, </if>
+        <if test="username != null">#{username}, </if>
       </trim>
     );
   </insert>
@@ -67,7 +67,6 @@
       p.title as p_title,
       p.content as p_content,
       p.author_id as p_author_id,
-      p.tag_id as p_tag_id,
       p_u.user_id as p_u_user_id,
       p_u.username as p_u_username,
       p_u.email as p_u_email,

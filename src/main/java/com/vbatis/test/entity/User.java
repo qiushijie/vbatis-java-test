@@ -8,15 +8,25 @@ import lombok.Data;
 */
 @Data public class User {
 
+	/*
+	* 用户id
+	*/
 	private Long userId;
 
+	/*
+	* 用户名
+	*/
 	private String username;
 
+	/*
+	* 邮箱
+	*/
 	private String email;
 
+	/*
+	* 密码
+	*/
 	private String password;
-
-	private Integer roleId;
 
 	/*
 	* 角色
